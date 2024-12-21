@@ -16,13 +16,13 @@ Berikut adalah fungsi utama untuk menampilkan teks menggunakan **SSD1306Wire**:
      display.setFont(ArialMT_Plain_10); // Menggunakan font Arial ukuran 10
      ```
      ```cpp
-     display.setFont(ArialMT_Plain_16); // Menggunakan font Arial ukuran 10
+     display.setFont(ArialMT_Plain_16); // Menggunakan font Arial ukuran 16
      ```
      ```cpp
-     display.setFont(ArialMT_Plain_24); // Menggunakan font Arial ukuran 10
+     display.setFont(ArialMT_Plain_24); // Menggunakan font Arial ukuran 24
      ```
      ```cpp
-     display.setFont(ArialMT_Plain_32); // Menggunakan font Arial ukuran 10
+     display.setFont(ArialMT_Plain_32); // Menggunakan font Arial ukuran 32
      ```
 
 2. **`setTextAlignment(TextAlignment alignment)`**  

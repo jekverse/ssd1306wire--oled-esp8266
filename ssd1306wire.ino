@@ -4,9 +4,8 @@
 // Inisialisasi OLED
 SSD1306Wire display(0x3C, D2, D1);
 
-// Variabel untuk posisi bola
-int ballX = 0, ballY = 0;
-int ballDirectionX = 1, ballDirectionY = 1; // Arah gerakan bola
+// Variabel untuk posisi objek
+int posX = 0, posY = 20;
 
 void setup() {
   display.init();
@@ -14,23 +13,19 @@ void setup() {
 }
 
 void loop() {
-  display.clear(); // Bersihkan layar sebelum menggambar
+  // Langkah 1: Bersihkan buffer
+  display.clear();
 
-  // Gambar bola di posisi saat ini
-  display.fillCircle(ballX, ballY, 5); // Bola dengan radius 5 piksel
+  // Langkah 2: Gambar elemen di buffer
+  display.drawString(0, 0, "Buffer Handling Example");
+  display.drawCircle(posX, posY, 10);
 
-  // Perbarui posisi bola
-  ballX += ballDirectionX;
-  ballY += ballDirectionY;
+  // Langkah 3: Tampilkan buffer ke layar
+  display.display();
 
-  // Pantulkan bola jika mencapai batas layar
-  if (ballX <= 0 || ballX >= 128) {
-    ballDirectionX *= -1; // Ubah arah horizontal
-  }
-  if (ballY <= 0 || ballY >= 64) {
-    ballDirectionY *= -1; // Ubah arah vertikal
-  }
+  // Langkah 4: Perbarui posisi objek
+  posX += 2;
+  if (posX > 128) posX = 0; // Reset posisi jika melewati layar
 
-  display.display(); // Tampilkan frame baru
-  delay(20); // Jeda antar frame
+  delay(50); // Jeda antar frame
 }

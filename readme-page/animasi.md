@@ -134,7 +134,7 @@ void loop() {
 
 3. **Animasi Halus**  
    - **`fillCircle()`** menggambar bola pada setiap frame.
-   - Jeda 20ms antar frame memberikan animasi yang halus.
+   - Jeda 20ms antar frame memberikan animasi yang halus..
 
 ---
 

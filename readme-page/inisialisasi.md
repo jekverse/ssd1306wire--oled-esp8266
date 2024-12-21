@@ -6,7 +6,7 @@ Inisialisasi dan konfigurasi OLED adalah langkah pertama sebelum OLED dapat digu
 
 ## **Fungsi Utama dalam Inisialisasi dan Konfigurasi**
 
-### 1. **`SSD1306Wire` Constructor**  
+## 1. **`SSD1306Wire` Constructor**  
    Digunakan untuk membuat instance OLED dengan parameter konfigurasi utama:
    - **address**: Alamat I2C OLED (default: `0x3C`).
    - **sda_pin**: Pin SDA (I2C data) pada ESP8266.
@@ -21,8 +21,6 @@ Berikut adalah format lengkap constructor:
 ```cpp
 SSD1306Wire(uint8_t address, uint8_t sda_pin, uint8_t scl_pin, OLEDDISPLAY_GEOMETRY geometry = GEOMETRY_128_64, uint8_t reset_pin = -1);
 ```
-
----
 
 #### **Parameter Constructor**
 
@@ -48,7 +46,7 @@ SSD1306Wire(uint8_t address, uint8_t sda_pin, uint8_t scl_pin, OLEDDISPLAY_GEOME
    **Contoh:**
    ```cpp
    SSD1306Wire display(0x3C, D2, D1); // SDA: D2, SCL: D1
-   SSD1306Wire display(0x3C, 4, 5);  // SDA: GPIO4, SCL: GPIO5 (alternatif pin)
+   SSD1306Wire display(0x3C, D5, D4);  // SDA: D5, SCL: D4 (alternatif pin)
    ```
 
 3. **`geometry` (opsional)**  
@@ -72,53 +70,6 @@ SSD1306Wire(uint8_t address, uint8_t sda_pin, uint8_t scl_pin, OLEDDISPLAY_GEOME
    SSD1306Wire display(0x3C, D2, D1, GEOMETRY_128_64, D3); // Reset menggunakan pin D3
    SSD1306Wire display(0x3C, D2, D1, GEOMETRY_128_64, -1); // Tanpa reset pin
    ```
-
----
-
-#### **Contoh Kode dengan Kombinasi Berbeda**
-
-1. **OLED 128x64, Tanpa Reset Pin**
-   ```cpp
-   SSD1306Wire display(0x3C, D2, D1); // Default 128x64, tanpa reset pin
-   ```
-
-2. **OLED 128x32, Dengan Reset Pin**
-   ```cpp
-   SSD1306Wire display(0x3C, D2, D1, GEOMETRY_128_32, D4); // OLED 128x32 dengan reset D4
-   ```
-
-3. **Alamat I2C Berbeda**
-   ```cpp
-   SSD1306Wire display(0x3D, D2, D1); // Alamat I2C 0x3D
-   ```
-
-4. **Pin I2C Berbeda**
-   ```cpp
-   SSD1306Wire display(0x3C, 4, 5); // SDA: GPIO4, SCL: GPIO5
-   ```
-
----
-
-#### **Fungsi dan Perbandingan**
-
-##### **Menggunakan Geometry**
-- **Fungsi:**  
-  Geometry memastikan tampilan OLED bekerja dengan ukuran yang benar.
-- **Tanpa Geometry:**  
-  Jika geometry tidak disesuaikan, layar OLED yang bukan 128x64 mungkin tidak menampilkan gambar dengan benar (gambar atau teks terpotong).
-
-##### **Menggunakan Reset Pin**
-- **Fungsi:**  
-  Pin reset memastikan layar dapat di-reset saat sistem boot.
-- **Tanpa Reset Pin:**  
-  Jika modul OLED Anda tidak memiliki pin reset, tidak ada masalah besar. Namun, beberapa modul mungkin memerlukan ini untuk memulai dengan benar.
-
-##### **Menggunakan Alamat yang Benar**
-- **Fungsi:**  
-  Alamat memastikan komunikasi I2C berjalan dengan baik.
-- **Alamat Salah:**  
-  Jika alamat salah, OLED tidak akan merespons.
-
 ---
 
 ## 2. **`init()`**  
@@ -206,19 +157,8 @@ void loop() {
 1. **Tanpa `resetDisplay()`**  
    Jika tidak menggunakan `resetDisplay()`, OLED mungkin menampilkan artefak atau data sisa jika sebelumnya digunakan. Dengan fungsi ini, OLED dimulai dalam kondisi bersih.
 
-2. **Tanpa `setContrast()`**  
-   Tanpa mengatur kontras, OLED menggunakan pengaturan default, yang mungkin terlalu terang atau redup untuk kebutuhan tertentu.
-
-3. **Tanpa `flipScreenVertically()`**  
+2. **Tanpa `flipScreenVertically()`**  
    Tanpa fungsi ini, layar tetap dalam orientasi default. Jika perangkat keras dipasang terbalik, teks/gambar tidak akan terlihat dengan benar.
 
-4. **Hanya `init()`**  
+3. **Hanya `init()`**  
    Jika hanya menggunakan `init()`, OLED dapat bekerja dengan baik, tetapi tidak ada penyesuaian khusus seperti orientasi atau kontras.
-
----
-
-#### **Hasil Praktek**
-- Jika semua fungsi di atas digunakan, layar OLED akan tampil dengan konfigurasi optimal (orientasi, kontras, dan reset).
-- Jika sebagian fungsi dilewatkan, hasilnya mungkin kurang optimal atau memerlukan debugging tambahan.
-
-Bagaimana jika kita coba mengimplementasikan kode ini dan melihat hasilnya pada OLED Anda? 😊

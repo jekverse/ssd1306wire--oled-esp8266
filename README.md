@@ -6,7 +6,7 @@ Berikut adalah fitur lengkap library **SSD1306Wire** yang akan kita pelajari:
 
 ### Fitur-Fitur
 
-*   **[1. Inisialisasi dan Konfigurasi OLED](inisialisasi.md)**
+*   **[1. Inisialisasi dan Konfigurasi OLED](readme-page/inisialisasi.md)**
 *   **[2. Kontrol Tampilan Dasar](kontrol-tampilan.md)**
 *   **[3. Menggambar di Layar](menggambar.md)**
 *   **[4. Menampilkan Teks](menampilkan-teks.md)**

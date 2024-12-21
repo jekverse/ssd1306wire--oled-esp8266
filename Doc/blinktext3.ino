@@ -44,6 +44,4 @@ void loop() {
   clear();
   center_text("BitcH", 2000);
   clear();
-
-
 }

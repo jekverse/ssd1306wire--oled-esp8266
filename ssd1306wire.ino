@@ -6,6 +6,7 @@ SSD1306Wire display(0x3C, D2, D1);  // Alamat I2C, SDA, dan SCL
 void setup() {
   display.init();
   display.clear();
+  display.flipScreenVertically();
 }
 
 void loop() {

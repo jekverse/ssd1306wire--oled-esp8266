@@ -1,4 +1,4 @@
-### **4. Mengatur Teks pada Layar**
+# **4. Mengatur Teks pada Layar**
 
 Fitur ini mencakup kemampuan untuk menampilkan teks pada OLED, termasuk mengatur posisi, ukuran font, perataan, dan gaya teks. Library **SSD1306Wire** menyediakan fungsi untuk menangani berbagai aspek tampilan teks.
 
@@ -8,12 +8,21 @@ Fitur ini mencakup kemampuan untuk menampilkan teks pada OLED, termasuk mengatur
 Berikut adalah fungsi utama untuk menampilkan teks menggunakan **SSD1306Wire**:
 
 1. **`setFont(const uint8_t* font)`**  
-   Mengatur jenis font yang akan digunakan.  
+   Mengatur ukuran font yang akan digunakan.  
    - **Parameter**:  
      `font` adalah pointer ke font yang digunakan. Font default biasanya cukup untuk kebutuhan dasar.  
    - **Contoh**:  
      ```cpp
      display.setFont(ArialMT_Plain_10); // Menggunakan font Arial ukuran 10
+     ```
+     ```cpp
+     display.setFont(ArialMT_Plain_16); // Menggunakan font Arial ukuran 10
+     ```
+     ```cpp
+     display.setFont(ArialMT_Plain_24); // Menggunakan font Arial ukuran 10
+     ```
+     ```cpp
+     display.setFont(ArialMT_Plain_32); // Menggunakan font Arial ukuran 10
      ```
 
 2. **`setTextAlignment(TextAlignment alignment)`**  
@@ -22,9 +31,22 @@ Berikut adalah fungsi utama untuk menampilkan teks menggunakan **SSD1306Wire**:
      - `TEXT_ALIGN_LEFT` (default): rata kiri.  
      - `TEXT_ALIGN_CENTER`: rata tengah.  
      - `TEXT_ALIGN_RIGHT`: rata kanan.  
-   - **Contoh**:  
-     ```cpp
-     display.setTextAlignment(TEXT_ALIGN_CENTER); // Teks rata tengah
+
+   - **Contoh rata kiri**:  
+     ```cpp     
+     display.setTextAlignment(TEXT_ALIGN_LEFT); // Teks rata kiri
+     display.drawString(0, 0, "Hello, OLED!");
+     ```
+
+   - **Contoh rata tengah**:  
+     ```cpp     
+     display.setTextAlignment(TEXT_ALIGN_CENTER);
+     display.drawString(64, 0, "Centered Text");
+     ```
+   - **Contoh rata kanan**:  
+     ```cpp     
+     display.setTextAlignment(TEXT_ALIGN_RIGHT);
+     display.drawString(128, 0, "Right Align");
      ```
 
 3. **`drawString(int16_t x, int16_t y, const String& text)`**  
@@ -45,7 +67,6 @@ Berikut adalah fungsi utama untuk menampilkan teks menggunakan **SSD1306Wire**:
      ```cpp
      display.drawStringMaxWidth(0, 0, 50, "Text yang panjang!");
      ```
-
 ---
 
 ### **Kode Contoh: Menampilkan Teks**

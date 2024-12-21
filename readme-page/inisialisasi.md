@@ -1,12 +1,12 @@
-### **1. Inisialisasi dan Konfigurasi OLED dengan Library SSD1306Wire**
+# **1. Inisialisasi dan Konfigurasi OLED dengan Library SSD1306Wire**
 
 Inisialisasi dan konfigurasi OLED adalah langkah pertama sebelum OLED dapat digunakan untuk menampilkan data. Dalam library **SSD1306Wire**, terdapat beberapa fungsi penting untuk inisialisasi dan konfigurasi OLED, terutama dalam mengatur protokol komunikasi, ukuran layar, dan orientasi.
 
 ---
 
-#### **Fungsi Utama dalam Inisialisasi dan Konfigurasi**
+## **Fungsi Utama dalam Inisialisasi dan Konfigurasi**
 
-1. **`SSD1306Wire` Constructor**  
+### 1. **`SSD1306Wire` Constructor**  
    Digunakan untuk membuat instance OLED dengan parameter konfigurasi utama:
    - **address**: Alamat I2C OLED (default: `0x3C`).
    - **sda_pin**: Pin SDA (I2C data) pada ESP8266.
@@ -121,7 +121,7 @@ SSD1306Wire(uint8_t address, uint8_t sda_pin, uint8_t scl_pin, OLEDDISPLAY_GEOME
 
 ---
 
-2. **`init()`**  
+## 2. **`init()`**  
    Menginisialisasi tampilan OLED berdasarkan konfigurasi yang diberikan di konstruktor.
 
    **Contoh:**
@@ -129,7 +129,7 @@ SSD1306Wire(uint8_t address, uint8_t sda_pin, uint8_t scl_pin, OLEDDISPLAY_GEOME
    display.init(); // Menginisialisasi OLED
    ```
 
-3. **`resetDisplay()`**  
+## 3. **`resetDisplay()`**  
    Mengatur ulang (reset) OLED, berguna untuk memulai layar dalam kondisi default.
 
    **Contoh:**
@@ -137,7 +137,7 @@ SSD1306Wire(uint8_t address, uint8_t sda_pin, uint8_t scl_pin, OLEDDISPLAY_GEOME
    display.resetDisplay(); // Mereset layar OLED
    ```
 
-4. **`setContrast(uint8_t contrast)`**  
+## 4. **`setContrast(uint8_t contrast)`**  
    Mengatur tingkat kecerahan layar (nilai: 0-255).  
    **Tanpa fungsi ini**, layar akan menggunakan pengaturan default.
 
@@ -146,7 +146,7 @@ SSD1306Wire(uint8_t address, uint8_t sda_pin, uint8_t scl_pin, OLEDDISPLAY_GEOME
    display.setContrast(128); // Mengatur kontras ke nilai tengah
    ```
 
-5. **`flipScreenVertically()`**  
+## 5. **`flipScreenVertically()`**  
    Membalik orientasi layar secara vertikal.  
    **Tanpa fungsi ini**, layar menggunakan orientasi default.
 
@@ -155,13 +155,13 @@ SSD1306Wire(uint8_t address, uint8_t sda_pin, uint8_t scl_pin, OLEDDISPLAY_GEOME
    display.flipScreenVertically(); // Membalik layar
    ```
 
-6. **`setBrightness()`**  
+## 6. **`setBrightness()`**  
    Fungsi untuk mengatur kecerahan layar. **Alternatif jika tidak menggunakan `setContrast()`**.  
    Namun, lebih jarang digunakan karena tergantung hardware tertentu.
 
 ---
 
-#### **Kode Lengkap untuk Inisialisasi**
+## **Kode Lengkap untuk Inisialisasi**
 Berikut contoh implementasi langkah-langkah inisialisasi:
 
 ```cpp

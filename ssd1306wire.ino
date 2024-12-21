@@ -4,31 +4,33 @@
 // Inisialisasi OLED
 SSD1306Wire display(0x3C, D2, D1);
 
-// Variabel untuk posisi teks
-int textX = 0;
-int textDirection = 1; // 1 untuk ke kanan, -1 untuk ke kiri
+// Variabel untuk posisi bola
+int ballX = 0, ballY = 0;
+int ballDirectionX = 1, ballDirectionY = 1; // Arah gerakan bola
 
 void setup() {
   display.init();
   display.clear();
-  display.setFont(ArialMT_Plain_10); // Mengatur font
-  display.setTextAlignment(TEXT_ALIGN_LEFT);
 }
 
 void loop() {
   display.clear(); // Bersihkan layar sebelum menggambar
 
-  // Gambar teks di posisi saat ini
-  display.drawString(textX, 20, "Hello, Animasi!");
+  // Gambar bola di posisi saat ini
+  display.fillCircle(ballX, ballY, 5); // Bola dengan radius 5 piksel
 
-  // Perbarui posisi teks
-  textX += textDirection;
+  // Perbarui posisi bola
+  ballX += ballDirectionX;
+  ballY += ballDirectionY;
 
-  // Pantulkan teks jika mencapai batas layar
-  if (textX < 0 || textX > 128) {
-    textDirection *= -1; // Ubah arah gerakan
+  // Pantulkan bola jika mencapai batas layar
+  if (ballX <= 0 || ballX >= 128) {
+    ballDirectionX *= -1; // Ubah arah horizontal
+  }
+  if (ballY <= 0 || ballY >= 64) {
+    ballDirectionY *= -1; // Ubah arah vertikal
   }
 
   display.display(); // Tampilkan frame baru
-  delay(30); // Jeda antar frame
+  delay(20); // Jeda antar frame
 }

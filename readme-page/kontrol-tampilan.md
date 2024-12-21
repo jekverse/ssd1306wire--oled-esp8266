@@ -1,63 +1,51 @@
-# **2. Kontrol Tampilan Dasar dengan SSD1306Wire**
+### **Penjelasan Perubahan (Versi Lengkap)**
 
-Kontrol tampilan dasar adalah langkah penting untuk memastikan layar OLED dapat berfungsi dengan optimal. Library **SSD1306Wire** menyediakan fungsi-fungsi yang memungkinkan pengendalian tampilan dasar, seperti menghidupkan/mematikan layar, membalik orientasi, dan mengatur kecerahan.
-
----
-
-#### **Fungsi Kontrol Dasar yang Disediakan**
-
-1. **`display()`**  
-   - Menampilkan semua data dari buffer ke layar OLED.  
-   - Tanpa fungsi ini, perubahan pada buffer tidak akan terlihat di layar.  
-   **Contoh:**
-   ```cpp
-   display.display();
-   ```
-
-2. **`clear()`**  
-   - Membersihkan layar (buffer), menghapus semua konten yang ditampilkan.  
-   - **Tanpa fungsi ini**, data sebelumnya tetap ditampilkan.  
-   **Contoh:**
-   ```cpp
-   display.clear();
-   ```
-
-3. **`turnOn()`**  
-   - Menghidupkan layar OLED tanpa memutus daya.  
-   - **Tanpa fungsi ini**, layar mungkin tetap mati jika sebelumnya dinonaktifkan.  
-   **Contoh:**
-   ```cpp
-   display.turnOn();
-   ```
-
-4. **`turnOff()`**  
-   - Mematikan layar OLED tanpa memutus daya.  
-   - Berguna untuk hemat daya.  
-   **Contoh:**
-   ```cpp
-   display.turnOff();
-   ```
-
-5. **`dim(bool)`**  
-   - Mengaktifkan mode hemat daya dengan meredupkan layar.  
-   - Nilai `true` untuk redup, `false` untuk normal.  
-   **Contoh:**
-   ```cpp
-   display.dim(true); // Layar redup
-   ```
-
-6. **`setContrast(uint8_t contrast)`**  
-   - Mengatur kecerahan layar dengan nilai 0-255.  
-   - Nilai lebih rendah = lebih redup, nilai tinggi = lebih terang.  
-   **Contoh:**
-   ```cpp
-   display.setContrast(128); // Mengatur kontras ke nilai sedang
-   ```
+Kontrol tampilan dasar adalah langkah penting untuk memastikan layar OLED dapat berfungsi dengan optimal. Library SSD1306Wire menyediakan fungsi-fungsi yang memungkinkan pengendalian tampilan dasar, seperti menghidupkan/mematikan layar, membalik orientasi, dan mengatur kecerahan.
 
 ---
 
-#### **Kode Lengkap Kontrol Tampilan Dasar**
-Berikut adalah contoh implementasi kontrol tampilan dasar:
+#### **1. Pengganti Fungsi `turnOff()` dan `turnOn()`**
+Fungsi **`turnOff()`** dan **`turnOn()`** bertujuan untuk mematikan dan menghidupkan layar OLED. Karena fungsi ini tidak tersedia, kita dapat mencapai efek serupa dengan cara berikut:
+
+- **"Mematikan layar" (turn off):**  
+  Gunakan fungsi **`clear()`** untuk menghapus semua data dari buffer layar, lalu panggil **`display()`** untuk memperbarui layar dengan buffer kosong. Ini membuat layar tampak seperti mati karena tidak ada data yang ditampilkan, meskipun perangkat keras OLED masih aktif.
+
+  **Kode:**
+  ```cpp
+  display.clear();   // Bersihkan buffer layar
+  display.display(); // Tampilkan buffer kosong
+  ```
+
+- **"Menghidupkan layar" (turn on):**  
+  Tampilkan kembali data atau konten ke layar dengan menambahkan data ke buffer menggunakan fungsi seperti **`drawString()`**, lalu panggil **`display()`** untuk menampilkan konten tersebut.
+
+  **Kode:**
+  ```cpp
+  display.drawString(0, 0, "Layar hidup kembali");
+  display.display();
+  ```
+
+#### **2. Pengganti Fungsi `dim(bool)`**
+Fungsi **`dim(bool)`** digunakan untuk meredupkan layar (dim = `true`) atau mengembalikannya ke kecerahan normal (dim = `false`). Karena fungsi ini tidak tersedia, kita bisa menggunakan **`setContrast(uint8_t contrast)`**, yang memungkinkan pengaturan tingkat kecerahan layar.
+
+- **Meredupkan layar:**  
+  Atur kontras ke nilai rendah (misalnya, `50` untuk redup tetapi masih terlihat).
+
+  **Kode:**
+  ```cpp
+  display.setContrast(50); // Kontras rendah untuk tampilan redup
+  ```
+
+- **Mengembalikan kecerahan normal:**  
+  Atur kontras ke nilai tinggi (misalnya, `255` untuk tampilan paling terang).
+
+  **Kode:**
+  ```cpp
+  display.setContrast(255); // Kontras tinggi untuk tampilan penuh
+  ```
+---
+
+### **Kode Lengkap Kontrol Tampilan Dasar**
 
 ```cpp
 #include <Wire.h>
@@ -81,39 +69,35 @@ void setup() {
 }
 
 void loop() {
-  // 1. Mematikan layar selama 2 detik
-  display.turnOff();
-  Serial.println("Layar mati");
+  // 1. "Mematikan" layar dengan membersihkan konten
+  display.clear();
+  display.display();
+  Serial.println("Layar dimatikan (buffer dikosongkan)");
   delay(2000);
 
-  // 2. Menghidupkan layar kembali
-  display.turnOn();
-  Serial.println("Layar hidup");
+  // 2. "Menghidupkan" layar dengan menampilkan konten
+  display.drawString(0, 0, "Layar hidup kembali");
+  display.display();
+  Serial.println("Layar dihidupkan");
   delay(2000);
 
-  // 3. Meredupkan layar
-  display.dim(true);
-  Serial.println("Layar redup");
-  delay(2000);
-
-  // 4. Mengembalikan kecerahan normal
-  display.dim(false);
-  Serial.println("Kecerahan normal");
-  delay(2000);
-
-  // 5. Mengubah kontras ke rendah
+  // 3. Meredupkan layar dengan kontras rendah
   display.setContrast(50);
+  display.drawString(0, 16, "Kontras rendah");
+  display.display();
   Serial.println("Kontras rendah");
   delay(2000);
 
-  // 6. Mengubah kontras ke tinggi
-  display.setContrast(200);
-  Serial.println("Kontras tinggi");
+  // 4. Mengembalikan kecerahan normal
+  display.setContrast(255);
+  display.drawString(0, 32, "Kontras normal");
+  display.display();
+  Serial.println("Kontras normal");
   delay(2000);
 
-  // 7. Membersihkan layar dan menampilkan teks baru
+  // 5. Membersihkan layar dan menampilkan pesan akhir
   display.clear();
-  display.drawString(0, 0, "Demo Selesai!");
+  display.drawString(0, 0, "Demo selesai!");
   display.display();
   delay(2000);
 }
@@ -121,18 +105,5 @@ void loop() {
 
 ---
 
-#### **Penjelasan Fungsi dan Perbandingan**
-
-1. **Tanpa `turnOff()` / `turnOn()`**  
-   Jika tidak menggunakan fungsi ini, layar akan tetap menyala sepanjang waktu, meskipun mungkin ingin dihemat daya.
-
-2. **Tanpa `dim()`**  
-   Fungsi ini opsional, tetapi sangat berguna untuk mode hemat daya atau ketika layar tidak perlu sepenuhnya terang.
-
-3. **Tanpa `clear()`**  
-   Layar akan tetap menampilkan data lama, dan data baru hanya akan ditambahkan di atasnya.
-
-4. **Tanpa `setContrast()`**  
-   OLED akan menggunakan tingkat kontras default, yang mungkin tidak sesuai untuk kondisi pencahayaan tertentu.
-
----
+### **Kesimpulan**
+Pendekatan ini memberikan fleksibilitas untuk mengontrol OLED tanpa memerlukan fungsi `turnOff()`, `turnOn()`, atau `dim()`. Dengan memanfaatkan **`clear()`**, **`display()`**, dan **`setContrast()`**, kita tetap bisa mengatur tampilan layar secara efektif sesuai kebutuhan.

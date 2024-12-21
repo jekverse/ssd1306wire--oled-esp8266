@@ -1,43 +1,53 @@
 #include <Wire.h>
-#include <SSD1306Wire.h>
+#include <SSD1306Wire.h> // Library SSD1306Wire
 
-SSD1306Wire display(0x3C, D2, D4);  // Alamat I2C, SDA, dan SCL
+// Inisialisasi OLED
+SSD1306Wire display(0x3C, D2, D1); // Alamat I2C: 0x3C, SDA: D2, SCL: D1
 
 void setup() {
-  display.init();      // Inisialisasi display OLED
-  display.clear();     // Bersihkan layar OLED
-  display.flipScreenVertically();
+  Serial.begin(115200);
+
+  // Inisialisasi layar
+  display.init();
+  display.clear(); // Bersihkan layar
+  display.display();
+
+  // Menampilkan pesan awal
+  display.drawString(0, 0, "Kontrol Dasar OLED");
+  display.display();
+  delay(2000);
 }
 
 void loop() {
+  // 1. "Mematikan" layar dengan membersihkan konten
+  display.clear();
+  display.display();
+  Serial.println("Layar dimatikan (buffer dikosongkan)");
+  delay(2000);
 
-  String text = "Hello, OLED!";
-  display.setFont(ArialMT_Plain_16);  // Tentukan font
+  // 2. "Menghidupkan" layar dengan menampilkan konten
+  display.drawString(0, 0, "Layar hidup kembali");
+  display.display();
+  Serial.println("Layar dihidupkan");
+  delay(2000);
 
-  // Menghitung posisi X agar teks di tengah horizontal
-  int16_t textWidth = display.getStringWidth(text);  // Lebar teks
-  int16_t xPos = (128 - textWidth) / 2;  // X posisi tengah
+  // 3. Meredupkan layar dengan kontras rendah
+  display.setContrast(50);
+  display.drawString(0, 16, "Kontras rendah");
+  display.display();
+  Serial.println("Kontras rendah");
+  delay(2000);
 
-  // Menghitung posisi Y agar teks di tengah vertikal
-  int16_t yPos = (64 - 16) / 2;  // Y posisi tengah (menggunakan font 16px tinggi)
+  // 4. Mengembalikan kecerahan normal
+  display.setContrast(255);
+  display.drawString(0, 32, "Kontras normal");
+  display.display();
+  Serial.println("Kontras normal");
+  delay(2000);
 
-  // Gambar kotak
-  display.fillRect(0, 0, 126, 63);  // x=0, y=0, lebar=126, tinggi=63
-  display.display();   // Perbarui tampilan
-  delay(100);          // Tunggu selama 0.5 detik
-
-  // Hapus kotak
-  display.clear();     // Bersihkan layar OLED
-  display.display();   // Perbarui tampilan
-  delay(100);          // Tunggu selama 0.5 detik
-  // Text
-  display.drawString(xPos, yPos, text);  // Tampilkan teks di posisi tengah
-  display.display();     // Perbarui tampilan
-  delay(2000);          // Tunggu selama 0.5 detik
-
-  // Hapus text
-  display.clear();     // Bersihkan layar OLED
-  display.display();   // Perbarui tampilan
-  delay(100);          // Tunggu selama 0.5 detik
+  // 5. Membersihkan layar dan menampilkan pesan akhir
+  display.clear();
+  display.drawString(0, 0, "Demo selesai!");
+  display.display();
+  delay(2000);
 }
-
